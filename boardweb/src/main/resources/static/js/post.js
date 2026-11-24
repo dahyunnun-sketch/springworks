@@ -6,24 +6,22 @@ function getValue(id){
 
 // 글 등록 - POST /api/posts, + JSON 데이터
 const createButton = document.getElementById('create-btn');
-if (createButton){
+if(createButton){
     createButton.addEventListener('click', () => {
         // 입력값 검증
-        if (!getValue('title') || !getValue('writer')
-            || !getValue('content')){
+        if(!getValue('title') || !getValue('content')){
             alert("모든 필드를 입력하세요.");
             return;
         }
         fetch('/api/posts', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
+            body: JSON.stringify({ //자바스크립트 객체 → JSON 문자열
                 title: getValue('title'),
-                writer: getValue("writer"),
                 content: getValue("content")
             })
-        }).then(response=> {
-            if (response.ok){
+        }).then(response => {
+            if(response.ok){
                 alert('등록되었습니다.');
                 location.replace('/posts');
             }else{
@@ -35,13 +33,13 @@ if (createButton){
 
 // 글 삭제 - DELETE /api/posts/{id}
 const deleteButton = document.getElementById('delete-btn');
-if (deleteButton){
+if(deleteButton){
     deleteButton.addEventListener('click', () => {
-        if (!confirm('삭제하시겠습니까 ?')) return; // 취소
+        if(!confirm('정말 삭제할까요?')) return; //취소
         const id = getValue('post-id');
         fetch(`/api/posts/${id}`, {method: 'DELETE'})
             .then(response => {
-                if (response.ok){
+                if(response.ok){
                     alert("삭제되었습니다.");
                     location.replace('/posts');
                 }else{
@@ -54,24 +52,36 @@ if (deleteButton){
 
 // 글 수정 PUT /api/posts/{id}
 const modifyButton = document.getElementById('modify-btn');
-if (modifyButton) {
+if(modifyButton){
     modifyButton.addEventListener('click', () => {
         const id = getValue('post-id');
         fetch(`/api/posts/${id}`, {
             method: 'PUT',
-            headers: {'Content-type': 'application/json'},
+            headers: { 'Content-type': 'application/json'},
             body: JSON.stringify({
                 title: getValue('title'),
                 content: getValue('content')
             })
         }).then(response => {
-                if (response.ok) {
+                if(response.ok){
                     alert("수정되었습니다.");
                     location.replace(`/posts/${id}`);
-                } else {
+                }else{
                     alert("수정 실패: " + response.status);
                 }
             }
         )
-    })
+    });
 }
+
+
+
+
+
+
+
+
+
+
+
+
